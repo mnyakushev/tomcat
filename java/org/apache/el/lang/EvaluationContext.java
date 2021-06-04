@@ -35,6 +35,8 @@ public final class EvaluationContext extends ELContext {
 
     private final VariableMapper varMapper;
 
+    private boolean resolved;
+
     public EvaluationContext(ELContext elContext, FunctionMapper fnMapper,
             VariableMapper varMapper) {
         this.elContext = elContext;
@@ -78,7 +80,7 @@ public final class EvaluationContext extends ELContext {
 
     @Override
     public void setPropertyResolved(boolean resolved) {
-        elContext.setPropertyResolved(resolved);
+        this.resolved = resolved;
     }
 
     @Override
@@ -93,7 +95,8 @@ public final class EvaluationContext extends ELContext {
 
     @Override
     public void setPropertyResolved(Object base, Object property) {
-        elContext.setPropertyResolved(base, property);
+        setPropertyResolved(true);
+        notifyPropertyResolved(base, property);
     }
 
     @Override
